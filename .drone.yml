@@ -10,6 +10,7 @@ pipeline:
     image: golang:1.11
     secrets: [ github_token ]
     commands:
+      - go get -t ./...
       - curl -sL https://git.io/goreleaser | bash
     when:
       event: [ push, tag ]
