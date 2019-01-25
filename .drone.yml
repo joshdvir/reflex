@@ -1,0 +1,16 @@
+workspace:
+  base: /go
+  path: src/github.com/joshdvir/reflex
+pipeline:
+  clone:
+    image: plugins/git
+    tags: true
+
+  release:
+    image: golang:1.11
+    secrets: [ github_token ]
+    commands:
+      - make deps
+      - curl -sL https://git.io/goreleaser | bash
+    when:
+      event: [ push, tag ]
