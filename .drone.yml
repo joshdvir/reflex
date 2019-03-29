@@ -1,16 +1,32 @@
+---
+kind: pipeline
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
 workspace:
   base: /go
   path: src/github.com/joshdvir/reflex
-pipeline:
-  clone:
-    image: plugins/git
+
+steps:
+- name: clone
+  pull: default
+  image: plugins/git
+  settings:
     tags: true
 
-  release:
-    image: golang:1.11
-    secrets: [ github_token ]
-    commands:
-      - go get -t ./...
-      - curl -sL https://git.io/goreleaser | bash
-    when:
-      event: [ push, tag ]
+- name: release
+  pull: default
+  image: golang:1.11
+  commands:
+  - go get -t ./...
+  - "curl -sL https://git.io/goreleaser | bash"
+  environment:
+    GITHUB_TOKEN:
+      from_secret: github_token
+  when:
+    event:
+    - push
+    - tag
