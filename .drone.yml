@@ -11,7 +11,7 @@ workspace:
   path: src/github.com/joshdvir/reflex
 
 steps:
-- name: clone
+- name: cloner
   pull: default
   image: plugins/git
   settings:
