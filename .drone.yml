@@ -28,5 +28,4 @@ steps:
       from_secret: github_token
   when:
     event:
-    - push
     - tag
